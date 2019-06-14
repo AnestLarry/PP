@@ -35,6 +35,15 @@ def Check_Threading_isalive(subthreadinglist=[]):
         else:
             threadingstatus+=[False]
     return threadingstatus
-    
+
+def BackgroundRunTask(function,**argv):
+    """Run a threading in background. 
+    you can start it with ".start()" """
+    return threading.Thread(target=function, args=argv)
+
+def BackgroundRunTask(function,**argv):
+    """Run a threading in background now."""
+    threading.Thread(target=function, args=argv).start()
+
 if __name__ == "__main__":
     pass

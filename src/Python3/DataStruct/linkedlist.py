@@ -13,6 +13,9 @@ class LinkedList:
     def __len__(self):
         return self.__len
 
+    def getItem(self, index=-1):
+        return self.__getItem(index)
+
     def __getItem(self, index):
         node = self.__head
         for i in range(self.__len):
@@ -71,8 +74,7 @@ class LinkedList:
             yield cur.data
             cur = cur.next
 
-    def print(self):
+    def print(self, sep=' ', end="\n"):
         for data in self.travel():
-            print(data, end=" ")
-        print()
- 
+            print(data, end=sep)
+        print(end=end)

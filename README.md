@@ -1,6 +1,8 @@
 # PP
 Personal Packages
 
-### It is log the package which i use in repos
+### ~~It is log the package which i use in repos~~
 
-### you can know the details in languages' branch.
+### ~~you can know the details in languages' branch.~~
+
+readme all out of time...

@@ -1,9 +1,9 @@
 class Queue:
     class Node:
-        def __init__(self, data=None, prev=None, next=None):
+        def __init__(self, data=None, prev=None, Next=None):
             self.data = data
             self.prev = prev
-            self.next = next
+            self.next = Next
 
     def __init__(self, node=None):
         self.__front: Queue.Node = node
@@ -18,7 +18,7 @@ class Queue:
 
     def Enqueue(self, data):
         if self.__front is None:
-            self.__front = self.rear = self.Node(data)
+            self.__front = self.__rear = self.Node(data)
         else:
             self.__rear.next = self.Node(data,self.__rear)
             self.__rear = self.__rear.next
@@ -32,7 +32,7 @@ class Queue:
             node.prev = None
             self.__front = node.next
             self.__len -=1
-            return node
+            return node.data
 
     def print(self,sep=' ',end="\n"):
         cur = self.__front

@@ -2,30 +2,30 @@ from DataStruct.queue import Queue
 
 q = Queue()
 try:
-    q.pop()
+    q.Dequeue()
 except LookupError:
     print("Pass")
 
-print("---- push test")
-q.push(1)
-q.push(3)
-q.push(5)
-q.push(7)
-q.push(9)
-q.push(11)
-q.push(12)
-q.push(14)
-q.push(19)
+print("---- Enqueue test")
+q.Enqueue(1)
+q.Enqueue(3)
+q.Enqueue(5)
+q.Enqueue(7)
+q.Enqueue(9)
+q.Enqueue(11)
+q.Enqueue(12)
+q.Enqueue(14)
+q.Enqueue(19)
 q.print()
 
-print("---- pop test")
+print("---- Dequeue test")
 for _ in range(5):
-    print("%d" % (q.pop(),))
+    print("%d" % (q.Dequeue(),))
 
 print("----- queue length")
 print(len(q))
 
-print("---- pop all")
+print("---- Dequeue all")
 while not q.is_empty():
-    q.pop()
+    q.Dequeue()
 print("--- end")

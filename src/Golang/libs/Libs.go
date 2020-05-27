@@ -15,10 +15,10 @@ import (
 )
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//  202003
+//  20201
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-func LibsXClear__202003() {
+func LibsXClear__20201() {
 	switch runtime.GOOS {
 	case "windows":
 		cmd := exec.Command("cmd", "/c", "cls")
@@ -31,6 +31,14 @@ func LibsXClear__202003() {
 		cmd.Stdout = os.Stdout
 		cmd.Run()
 	}
+}
+
+func LibsXIsFile__20201(path string) bool {
+	s, err := os.Stat(path)
+	if err != nil {
+		return false
+	}
+	return !s.IsDir()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -214,28 +222,6 @@ func LibsXContainsStrings(array []string, val string) (index int) {
 	return
 }
 
-func LibsXContainsInts(array []int, val int) (index int) {
-	index = -1
-	for i := 0; i < len(array); i++ {
-		if array[i] == val {
-			index = i
-			return
-		}
-	}
-	return
-}
-
-func LibsXContainsFloat32(array []float32, val float32) (index int) {
-	index = -1
-	for i := 0; i < len(array); i++ {
-		if array[i] == val {
-			index = i
-			return
-		}
-	}
-	return
-}
-
 func LibsXContainsFloat64(array []float64, val float64) (index int) {
 	index = -1
 	for i := 0; i < len(array); i++ {
@@ -258,7 +244,7 @@ func LibsXContainsBools(array []bool, val bool) (index int) {
 	return
 }
 
-func LibsXContainsInt64s(array []int64, val int64) (index int) {
+func LibsXContainsInt64(array []int64, val int64) (index int) {
 	index = -1
 	for i := 0; i < len(array); i++ {
 		if array[i] == val {

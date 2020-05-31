@@ -1,5 +1,6 @@
-from DataStruct.queue import Queue
+from DataStruct.queue import Queue,PriorityQueue
 
+print("---- Queue test")
 q = Queue()
 try:
     q.Dequeue()
@@ -29,3 +30,25 @@ print("---- Dequeue all")
 while not q.is_empty():
     q.Dequeue()
 print("--- end")
+
+print("---- PriorityQueue test")
+print("---- Enqueue test")
+
+pq = PriorityQueue()
+pq.Enqueue(2)
+pq.Enqueue(5)
+pq.Enqueue(1)
+pq.Enqueue(10)
+pq.Enqueue(0)
+print("----- length")
+print(len(pq))
+
+print("----- print")
+pq.print()
+
+print("---- Dequeue test")
+print(pq.Dequeue())
+print(pq.Dequeue())
+print(pq.Dequeue())
+print(pq.Dequeue())
+print(pq.Dequeue())

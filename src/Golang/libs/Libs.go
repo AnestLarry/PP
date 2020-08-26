@@ -1,4 +1,4 @@
-package libs
+package Libs
 
 import (
 	"bufio"
@@ -7,12 +7,87 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
+	"net/http"
+	"net/url"
 	"os"
 	"os/exec"
 	"reflect"
 	"runtime"
+	"strings"
+	"time"
 )
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//  20203
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+func SendHTTPRequest(method, aUrl string, headers, data map[string]string, timeOut uint16,
+	proxy string) ([]byte, []*http.Cookie, *http.Response) {
+	var aClient *http.Client
+	if proxy != "" {
+		proxyUrl, _ := url.Parse(proxy)
+		transport := &http.Transport{Proxy: http.ProxyURL(proxyUrl)}
+		aClient = &http.Client{
+			Timeout:   time.Duration(timeOut) * time.Millisecond,
+			Transport: transport,
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				return http.ErrUseLastResponse
+			}}
+	} else {
+		aClient = &http.Client{
+			Timeout: time.Duration(timeOut) * time.Millisecond,
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				return http.ErrUseLastResponse
+			}}
+	}
+
+	payload := make(url.Values)
+	if data != nil {
+		for i, j := range data {
+			payload.Add(i, j)
+		}
+	}
+	body := strings.NewReader(payload.Encode())
+	req, _ := http.NewRequest(
+		method,
+		aUrl,
+		body,
+	)
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36")
+	if headers != nil {
+		for i, v := range headers {
+			req.Header.Add(i, v)
+		}
+	}
+	if method == "POST" {
+		req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	}
+	r, err := aClient.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+	cookie := req.Cookies()
+	return b, cookie, r
+}
+
+func SendGet(aUrl string, headers map[string]string) ([]byte, []*http.Cookie, *http.Response) {
+	return SendHTTPRequest("GET", aUrl, nil, headers, 60, "")
+}
+func SendGetSimple(aUrl string) ([]byte, []*http.Cookie, *http.Response) {
+	return SendGet(aUrl, nil)
+}
+func SendPost(aUrl string, headers, data map[string]string) ([]byte, []*http.Cookie, *http.Response) {
+	return SendHTTPRequest("POST", aUrl, data, headers, 60, "")
+}
+func SendPostSimple(aUrl string, data map[string]string) ([]byte, []*http.Cookie, *http.Response) {
+	return SendPost(aUrl, nil, data)
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //  20201

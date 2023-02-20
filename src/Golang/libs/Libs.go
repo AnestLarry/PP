@@ -7,17 +7,30 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
 	"os/exec"
-	"reflect"
 	"runtime"
 	"strings"
 	"time"
 )
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//  20231
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+func VecContains[T comparable](array []T, val T) (index int) {
+	index = -1
+	for i := 0; i < len(array); i++ {
+		if array[i] == val {
+			index = i
+			return
+		}
+	}
+	return
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //  20203
@@ -68,7 +81,7 @@ func SendHTTPRequest(method, aUrl string, headers, data map[string]string, timeO
 	if err != nil {
 		panic(err)
 	}
-	b, err := ioutil.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
 	}
@@ -267,65 +280,4 @@ func LibsXExecShell(commandName string, params []string) {
 	} else {
 		fmt.Println(outs)
 	}
-}
-
-func LibsXContains(array interface{}, val interface{}) (index int) {
-	index = -1
-	switch reflect.TypeOf(array).Kind() {
-	case reflect.Slice:
-		{
-			s := reflect.ValueOf(array)
-			for i := 0; i < s.Len(); i++ {
-				if reflect.DeepEqual(val, s.Index(i).Interface()) {
-					index = i
-					return
-				}
-			}
-		}
-	}
-	return
-}
-
-func LibsXContainsStrings(array []string, val string) (index int) {
-	index = -1
-	for i := 0; i < len(array); i++ {
-		if array[i] == val {
-			index = i
-			return
-		}
-	}
-	return
-}
-
-func LibsXContainsFloat64(array []float64, val float64) (index int) {
-	index = -1
-	for i := 0; i < len(array); i++ {
-		if array[i] == val {
-			index = i
-			return
-		}
-	}
-	return
-}
-
-func LibsXContainsBools(array []bool, val bool) (index int) {
-	index = -1
-	for i := 0; i < len(array); i++ {
-		if array[i] == val {
-			index = i
-			return
-		}
-	}
-	return
-}
-
-func LibsXContainsInt64(array []int64, val int64) (index int) {
-	index = -1
-	for i := 0; i < len(array); i++ {
-		if array[i] == val {
-			index = i
-			return
-		}
-	}
-	return
 }
